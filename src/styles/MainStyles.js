@@ -4,8 +4,13 @@ const mainStyles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: 'red'
-  }
+  },
+  darkContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: '#4F4F4F',
+  },
+
 });
 
 export default mainStyles;

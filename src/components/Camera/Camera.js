@@ -1,5 +1,8 @@
 import React from 'react';
 
+import { RNCamera } from 'react-native-camera';
+import { useSelector, useDispatch } from 'react-redux';
+
 import {
   View,
   Text,
@@ -8,13 +11,12 @@ import {
 import Geolocation from '@react-native-community/geolocation';
 
 import cameraStyles from './../../styles/CameraStyles';
-import { RNCamera } from 'react-native-camera';
+import { sampleAdded } from '../../slices/sampleSlice';
 
 const PendingView = () => (
   <View
     style={{
       flex: 1,
-      backgroundColor: 'lightgreen',
       justifyContent: 'center',
       alignItems: 'center',
     }}
@@ -23,26 +25,23 @@ const PendingView = () => (
   </View>
 );
 
-export const Camera = () => {
-
-  const takePicture = async function (camera) {
-    const options = { quality: 0.5, base64: true };
-    const data = await camera.takePictureAsync(options);
-    console.log(data)
-    if (data.uri) return data.uri;
-    return null;
-  };
+export const Camera = ({ handleGoBack }) => {
+  const dispatch = useDispatch();
 
   const saveSample = async (camera) => {
     const picture = await camera.takePictureAsync({ quality: 0.5, base64: true });
-
+    console.log(picture)
     if (picture.uri) {
       Geolocation.getCurrentPosition(
         position => {
-          const initialPosition = JSON.stringify(position);
-          console.log('------------------1')
-          console.log(picture);
-          console.log(initialPosition);
+          const newSample = {
+            photo: picture.uri,
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            date: JSON.stringify(new Date())
+          }
+          dispatch(sampleAdded(newSample));
+          handleGoBack();
         },
         error => {
           console.log('Error', JSON.stringify(error))

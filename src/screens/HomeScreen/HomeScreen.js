@@ -9,18 +9,23 @@ import { MainButton } from '../../components/MainButton';
 export const HomeScreen = ({ navigation }) => {
 
   const goToCamera = () => {
-    console.log(navigation)
     navigation.navigate('Camera');
   }
-  // [51.505, -0.09]
-  let webViewLeaflet = null;
+
+  const goToSampleDetail = (sample) => {
+    navigation.navigate('SampleDetail', {
+      sample: sample,
+    });
+  }
+
+
   return (
     <View style={mainStyles.container}>
       <Header
         title="Muestras"
       />
-      {/* <SampleList />
-      <MainButton handleClick={goToCamera} /> */}
+      <SampleList goToSampleDetail={goToSampleDetail} />
+      <MainButton handleClick={goToCamera} />
     </View>
   );
-} 
+}

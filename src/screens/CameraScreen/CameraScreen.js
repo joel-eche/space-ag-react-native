@@ -8,13 +8,18 @@ import { Camera } from '../../components/Camera';
 
 export const CameraScreen = ({ navigation }) => {
 
+  const goBack = () => {
+    navigation.goBack();
+  }
+
   return (
     <View style={mainStyles.container}>
       <Header
         title="Nueva muestra"
         hasCloseButton={true}
+        handleGoBack={goBack}
       />
-      <Camera />
+      <Camera handleGoBack={goBack} />
     </View>
   );
 } 
